@@ -1,0 +1,38 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.10.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.abc.api'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	compile('org.springframework.boot:spring-boot-starter-web') {
+		exclude group:	"org.springframework.boot", module:	"spring-boot-starter-tomcat"
+	}
+	compile('org.springframework.boot:spring-boot-starter-undertow')
+	compile('com.graphql-java:graphql-spring-boot-starter:3.9.2')
+	compile('com.graphql-java:graphql-java-tools:4.3.0')
+
+
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}

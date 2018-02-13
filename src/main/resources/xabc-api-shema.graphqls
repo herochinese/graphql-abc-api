@@ -1,0 +1,157 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    flight(flightNumber: String, gate: String):   Flight
+    boarding(flightNumber:  String):   Boarding
+    seatMap(flightNumber: String): SeatMap
+}
+
+type Mutation {
+    board(firstName: String, lastName: String!, pnr: String, seatNumber: String, flightNumber: String!) : Boarding
+    deboard(firstName: String, lastName: String!, pnr: String, seatNumber: String, flightNumber: String!): Boarding
+    openFlight(agentSineCode:  String!, flightNumber: String!): Flight
+
+
+}
+
+enum FlightStatus {
+    FF
+    PD
+}
+
+type Flight {
+    id: ID!
+    jacSessionID:   String!
+    agentSineCode:  String!
+
+    agentSineCode:  String!
+    airlineOperatingCode:   String!
+    flightNumber:   String!
+    gate:   String
+    originalGate:   String
+    departureAirport:   String!
+    arrivalAirport: String!
+    bookingClassPref:   String
+    status: FlightStatus
+    paxToBoard: Int!
+    paxBoarded: Int!
+    paxLeftToBoard: Int!
+    paxCheckedIn:   Int!
+    seatMap:    SeatMap
+}
+
+type SeatMap {
+
+    flightNumber:   String
+    aircraftDescription:    String
+    airlineOperatingCode:   String
+    equipment:  String
+    rowList:    [Row]!
+}
+
+type Row {
+
+    seatList:   [Seat]!
+}
+
+type Seat {
+    column: String
+    occupation: String
+    firstName:  String
+    lastName:   String
+    loyaltyTier:    String
+    specialHandling:    String
+    unfitted:   String
+    type:   Boolean
+    lastKnownLocation:  String
+    checkInStatus:  String
+    boardingInfo:   String
+
+}
+
+enum BoardingStatus {
+    INACTIVE
+    TO_BE_PROCESSED
+    BOARDED
+    WARNING
+    REJECTED
+    DEBOARD
+    PRINT
+    PRINT_MANIFEST
+    PRINT_LOAD_SHEET
+}
+
+enum BoardingSubStatus {
+    SCANNER_WAITING_RESPONSE
+    ACK
+    THROUGH_GATE
+    DID_NOT_GO_THROUGH_GATE
+}
+
+enum BoardType {
+    MANUAL
+    BPASS
+    MPASS
+}
+
+type Scanner {
+    name:   String!
+    ip: String!
+    mode:   String
+}
+
+type Boarding {
+    id: ID!
+    state:  BoardingStatus
+    subState:   BoardingSubStatus
+
+    agentSineCode:  String!
+    scanner:    Scanner
+    jacSessionID:   String
+
+    flight: Flight!
+
+    lastName:   String!
+    firstName:  String
+    type: String
+    pnr:    String
+    paxRef: String
+    paxNumber:  String
+    child:  Boolean!
+    infant: Boolean!
+    withInfant: Boolean!
+    withBoardingPass:   String
+
+    seat:   Seat
+
+    groupNumber:    String
+    boardingInfo:   String
+    boardType:  BoardType
+    scanNumber: String
+    boardTime:  String
+    info:   String
+    csn:    String
+    customerGUID:   String
+    loyaltyTier:    String
+    frequentFlyerProgram:   String
+    frequentFlyerNumber:    String
+    inbound:    String
+    ep1:    Boolean!
+    numberOfBags:   String
+    checkedIn:  Boolean!
+    orginalCheckedIn:   Boolean!
+    webCheck:   Boolean!
+    checkInStatus:  String
+    specialHandling:    String
+    lastKnownLocation:  String
+    bagTagNumbers:  String
+    isTranship: Boolean!
+    isTransit:  Boolean!
+    exitRow:    Boolean!
+    acknowledgeDateTime:    String
+    gate:   String
+
+}
