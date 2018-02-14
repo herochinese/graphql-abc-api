@@ -1,24 +1,56 @@
+#Schema for GraphQL API: simple + effcient
+
 schema {
     query: Query
     mutation: Mutation
 }
 
 type Query {
-    flight(flightNumber: String, gate: String):   Flight
-    boarding(flightNumber:  String):   Boarding
-    seatMap(flightNumber: String): SeatMap
+    #Search flights by flight number or "*"
+    flights(flightNumber: String):   [Flight]
+
+    #Search boardings by flight number or "*"
+    boardings(flightNumber:  String):   [Boarding]
+
+    #Get seat map by flight number
+    seatMap(flightNumber: String!): SeatMap
 }
 
 type Mutation {
-    board(firstName: String, lastName: String!, pnr: String, seatNumber: String, flightNumber: String!) : Boarding
-    deboard(firstName: String, lastName: String!, pnr: String, seatNumber: String, flightNumber: String!): Boarding
-    openFlight(agentSineCode:  String!, flightNumber: String!): Flight
+    board:  BoardOperation
+    deboard: DeboardOperation
+    flight: FlightOperation
+}
 
+#Boarding set
+type BoardOperation {
+    boardByName(firstName: String, lastName: String!, flightNumber: String!): Boarding
+    boardByPNR(pnr: String!, flightNumber: String!): Boarding
+    boardByBarcode(barcode:String!): Boarding
+}
+
+#Deboard set
+type DeboardOperation {
+    deboard(firstName: String, lastName: String!, pnr: String, seatNumber: String, flightNumber: String!): Boarding
 
 }
 
+#Operating flight
+type FlightOperation {
+    open(agentSineCode:  String!, flightNumber: String!, departureAirport: String!): Flight
+    close(flightNumber: String!): Flight
+}
+
+
+
 enum FlightStatus {
+    #Flight open
+    FO
+    #Flight close
+    FC
+    #Flight finished
     FF
+    FD
     PD
 }
 
@@ -27,7 +59,6 @@ type Flight {
     jacSessionID:   String!
     agentSineCode:  String!
 
-    agentSineCode:  String!
     airlineOperatingCode:   String!
     flightNumber:   String!
     gate:   String
