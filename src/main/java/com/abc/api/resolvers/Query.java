@@ -18,21 +18,18 @@ public class Query implements GraphQLQueryResolver {
     @Autowired
     private DataRepository dataRepository;
 
-    public Flight flight(String flightNumber) {
-        return dataRepository.getFlights().values().stream().filter(flight -> flight.getFlightNumber().equals(flightNumber)).findFirst().orElseGet(null);
-    }
 
     public List<Flight>flights(String flightNumber) {
         return dataRepository.getFlights().values().stream().filter(flight -> "*".equals(flightNumber)?true:flight.getFlightNumber().equals(flightNumber)).collect(Collectors.toList());
     }
 
 
-    public Boarding boarding(String flightNumber) {
-        return null;
+    public List<Boarding> boardings(String flightNumber) {
+        return dataRepository.getBoardings().values().stream().filter(boarding-> "*".equals(flightNumber)?true:boarding.getFlight().getFlightNumber().equals(flightNumber)).collect(Collectors.toList());
     }
 
     public SeatMap seatMap(String flightNumber) {
-        return null;
+        return dataRepository.getFlights().values().stream().filter(flight -> flight.getFlightNumber().equals(flightNumber)).findFirst().get().getSeatMap();
     }
 
 }

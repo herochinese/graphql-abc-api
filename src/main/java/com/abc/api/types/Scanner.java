@@ -6,6 +6,11 @@ public class Scanner {
     private String ip;
     private String mode;
 
+    public Scanner(String name, String ip, String mode) {
+        this.name = name;
+        this.ip = ip;
+        this.mode = mode;
+    }
 
     public String getName() {
         return name;

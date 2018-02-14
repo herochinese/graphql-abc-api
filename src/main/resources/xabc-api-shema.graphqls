@@ -17,28 +17,32 @@ type Query {
 }
 
 type Mutation {
-    board:  BoardOperation
+    board: BoardOperation
     deboard: DeboardOperation
     flight: FlightOperation
 }
+
+
 
 #Boarding set
 type BoardOperation {
     boardByName(firstName: String, lastName: String!, flightNumber: String!): Boarding
     boardByPNR(pnr: String!, flightNumber: String!): Boarding
     boardByBarcode(barcode:String!): Boarding
+    boardBySeatNumber(seatNumber: String!, flightNumber: String!): Boarding
 }
 
 #Deboard set
 type DeboardOperation {
-    deboard(firstName: String, lastName: String!, pnr: String, seatNumber: String, flightNumber: String!): Boarding
+    deboardByName(firstName: String, lastName: String!, flightNumber: String!): Boarding
+    deboardBySeatNumber(seatNumber: String!, flightNumber: String!): Boarding
 
 }
 
 #Operating flight
 type FlightOperation {
     open(agentSineCode:  String!, flightNumber: String!, departureAirport: String!): Flight
-    close(flightNumber: String!): Flight
+    close(agentSineCode:  String!, flightNumber: String!, departureAirport: String!): Flight
 }
 
 
@@ -89,17 +93,17 @@ type Row {
 }
 
 type Seat {
-    column: String
+    column: String!
     occupation: String
     firstName:  String
     lastName:   String
     loyaltyTier:    String
     specialHandling:    String
     unfitted:   String
-    type:   Boolean
+    type:   Boolean!
     lastKnownLocation:  String
     checkInStatus:  String
-    boardingInfo:   String
+    boardingInfo:   String!
 
 }
 
@@ -110,13 +114,9 @@ enum BoardingStatus {
     WARNING
     REJECTED
     DEBOARD
-    PRINT
-    PRINT_MANIFEST
-    PRINT_LOAD_SHEET
 }
 
 enum BoardingSubStatus {
-    SCANNER_WAITING_RESPONSE
     ACK
     THROUGH_GATE
     DID_NOT_GO_THROUGH_GATE

@@ -52,6 +52,53 @@ public class Boarding {
     String acknowledgeDateTime;
     String gate;
 
+    public Boarding(String id, BoardingStatus state, BoardingSubStatus subState, String agentSineCode, Scanner scanner, String jacSessionID, Flight flight, String lastName, String firstName, String type, String pnr, String paxRef, String paxNumber, boolean child, boolean infant, boolean withInfant, String withBoardingPass, Seat seat, String groupNumber, String boardingInfo, BoardType boardType, String scanNumber, String boardTime, String info, String csn, String customerGUID, String loyaltyTier, String frequentFlyerProgram, String frequentFlyerNumber, String inbound, boolean ep1, String numberOfBags, boolean checkedIn, boolean orginalCheckedIn, boolean webCheck, String checkInStatus, String specialHandling, String lastKnownLocation, String bagTagNumbers, boolean isTranship, boolean isTransit, boolean exitRow, String acknowledgeDateTime, String gate) {
+        this.id = id;
+        this.state = state;
+        this.subState = subState;
+        this.agentSineCode = agentSineCode;
+        this.scanner = scanner;
+        this.jacSessionID = jacSessionID;
+        this.flight = flight;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.type = type;
+        this.pnr = pnr;
+        this.paxRef = paxRef;
+        this.paxNumber = paxNumber;
+        this.child = child;
+        this.infant = infant;
+        this.withInfant = withInfant;
+        this.withBoardingPass = withBoardingPass;
+        this.seat = seat;
+        this.groupNumber = groupNumber;
+        this.boardingInfo = boardingInfo;
+        this.boardType = boardType;
+        this.scanNumber = scanNumber;
+        this.boardTime = boardTime;
+        this.info = info;
+        this.csn = csn;
+        this.customerGUID = customerGUID;
+        this.loyaltyTier = loyaltyTier;
+        this.frequentFlyerProgram = frequentFlyerProgram;
+        this.frequentFlyerNumber = frequentFlyerNumber;
+        this.inbound = inbound;
+        this.ep1 = ep1;
+        this.numberOfBags = numberOfBags;
+        this.checkedIn = checkedIn;
+        this.orginalCheckedIn = orginalCheckedIn;
+        this.webCheck = webCheck;
+        this.checkInStatus = checkInStatus;
+        this.specialHandling = specialHandling;
+        this.lastKnownLocation = lastKnownLocation;
+        this.bagTagNumbers = bagTagNumbers;
+        this.isTranship = isTranship;
+        this.isTransit = isTransit;
+        this.exitRow = exitRow;
+        this.acknowledgeDateTime = acknowledgeDateTime;
+        this.gate = gate;
+    }
+
     public String getId() {
         return id;
     }

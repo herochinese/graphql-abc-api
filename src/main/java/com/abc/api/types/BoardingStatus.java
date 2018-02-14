@@ -6,8 +6,5 @@ public enum BoardingStatus {
     BOARDED,
     WARNING,
     REJECTED,
-    DEBOARD,
-    PRINT,
-    PRINT_MANIFEST,
-    PRINT_LOAD_SHEET
+    DEBOARD
 }

@@ -1,20 +1,24 @@
 package com.abc.api;
 
 import com.abc.api.types.*;
+import com.abc.api.types.Scanner;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class DataRepository {
 
     private Map<String, Flight> flights;
+    private Map<String, Boarding> boardings;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 
     public DataRepository() {
@@ -22,6 +26,8 @@ public class DataRepository {
                 getFlight("10001","0451"),
                 getFlight("10002","0452"),
                 getFlight("10003","0453")).collect(Collectors.toMap(Flight::getId, Function.identity())));
+
+        this.boardings = new HashMap<>();
     }
 
     private List<Seat> getSeats() {
@@ -57,5 +63,56 @@ public class DataRepository {
 
     public void setFlights(Map<String, Flight> flights) {
         this.flights = flights;
+    }
+
+
+
+
+    public Boarding getBoarding() {
+        return new Boarding(UUID.randomUUID().toString(), BoardingStatus.BOARDED, BoardingSubStatus.ACK,"30033S/TT", getScanner(), "Gates", getFlight("20001","777"),
+                "XXX-XXX","XXX","","AQWERT",
+                "","",false,false,false, "Yes",
+                new Seat("A","Y", "Tom1", "Chen", "","Y","",false, "AKL","Checked","Boarded"),
+                "","Baarded",
+                BoardType.MPASS,"",simpleDateFormat.format(new Date()),"","","","C","09809",
+        "LAX","Y",true,"1",true,false,false,
+                "","","ABCED8","",false,false, false,
+                "","G02");
+    }
+    public Boarding getBoarding(String flightNumber) {
+        return new Boarding(UUID.randomUUID().toString(), BoardingStatus.BOARDED, BoardingSubStatus.ACK,"30033S/TT", getScanner(), "Gates", getFlight("20001",flightNumber),
+                "XXX-XXX","XXX","","AQWERT",
+                "","",false,false,false, "Yes",
+                new Seat("A","Y", "Tom1", "Chen", "","Y","",false, "AKL","Checked","Boarded"),
+                "","Baarded",
+                BoardType.MPASS,"",simpleDateFormat.format(new Date()),"","","","C","09809",
+                "LAX","Y",true,"1",true,false,false,
+                "","","ABCED8","",false,false, false,
+                "","G02");
+    }
+
+    public Boarding getBoarding(String firstName, String lastName, String flightNumber) {
+        return new Boarding(UUID.randomUUID().toString(), BoardingStatus.BOARDED, BoardingSubStatus.ACK,"30033S/TT", getScanner(), "Gates", getFlight("20001",flightNumber),
+                lastName, firstName,"","AQWERT",
+                "","",false,false,false, "Yes",
+                new Seat("A","Y", "Tom1", "Chen", "","Y","",false, "AKL","Checked","Boarded"),
+                "","Baarded",
+                BoardType.MPASS,"",simpleDateFormat.format(new Date()),"","","","C","09809",
+                "LAX","Y",true,"1",true,false,false,
+                "","","ABCED8","",false,false, false,
+                "","G02");
+    }
+
+
+    private Scanner getScanner() {
+        return new Scanner("HUB-TEST-001","10.0.0.1","");
+    }
+
+    public Map<String, Boarding> getBoardings() {
+        return boardings;
+    }
+
+    public void addBoarding(Boarding boarding) {
+        this.boardings.put(boarding.getId(),boarding);
     }
 }
