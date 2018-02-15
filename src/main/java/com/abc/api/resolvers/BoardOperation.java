@@ -24,8 +24,8 @@ public class BoardOperation {
 
     }
 
-    public Boarding boardByBarcode(String barcode) {
-        Boarding boarding = dataRepository.getBoarding();
+    public Boarding boardByBarcode(String barcode, String scannerName) {
+        Boarding boarding = dataRepository.getBoardingwithScanner(scannerName);
         dataRepository.addBoarding(boarding);
         return boarding;
     }

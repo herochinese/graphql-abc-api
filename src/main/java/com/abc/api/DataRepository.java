@@ -22,10 +22,10 @@ public class DataRepository {
 
 
     public DataRepository() {
-        this.flights = Collections.unmodifiableMap(Stream.of(getFlight("10000","0450"),
+        this.flights = Stream.of(getFlight("10000","0450"),
                 getFlight("10001","0451"),
                 getFlight("10002","0452"),
-                getFlight("10003","0453")).collect(Collectors.toMap(Flight::getId, Function.identity())));
+                getFlight("10003","0453")).collect(Collectors.toMap(Flight::getId, Function.identity()));
 
         this.boardings = new HashMap<>();
     }
@@ -65,7 +65,19 @@ public class DataRepository {
         this.flights = flights;
     }
 
+    public Flight openFlight(String agentSineCode, String flightNumber, String departureAirport) {
+        Flight flight = new Flight(UUID.randomUUID().toString(),"Gates",agentSineCode,"NZ",
+                flightNumber,"","G2",departureAirport,"WLG",
+                "", FlightStatus.FO,100,0,100,80,getSeatMap());
 
+        this.flights.put(flight.getId(), flight);
+        return flight;
+    }
+
+    public Flight closeFlight(String agentSineCode, String flightNumber, String departureAirport) {
+        return this.flights.values().stream().filter(flight-> flight.getAgentSineCode().equals(agentSineCode) && flight.getFlightNumber().equals(flightNumber) && flight.getDepartureAirport().equals(flightNumber))
+                .findFirst().orElse(null);
+    }
 
 
     public Boarding getBoarding() {
@@ -91,6 +103,18 @@ public class DataRepository {
                 "","G02");
     }
 
+    public Boarding getBoardingwithScanner(String scanner) {
+        return new Boarding(UUID.randomUUID().toString(), BoardingStatus.BOARDED, BoardingSubStatus.ACK,"30033S/TT", getScanner(scanner), "Gates", getFlight("20001","777"),
+                "XXX-XXX","XXX","","AQWERT",
+                "","",false,false,false, "Yes",
+                new Seat("A","Y", "Tom1", "Chen", "","Y","",false, "AKL","Checked","Boarded"),
+                "","Baarded",
+                BoardType.MPASS,"",simpleDateFormat.format(new Date()),"","","","C","09809",
+                "LAX","Y",true,"1",true,false,false,
+                "","","ABCED8","",false,false, false,
+                "","G02");
+    }
+
     public Boarding getBoarding(String firstName, String lastName, String flightNumber) {
         return new Boarding(UUID.randomUUID().toString(), BoardingStatus.BOARDED, BoardingSubStatus.ACK,"30033S/TT", getScanner(), "Gates", getFlight("20001",flightNumber),
                 lastName, firstName,"","AQWERT",
@@ -106,6 +130,10 @@ public class DataRepository {
 
     private Scanner getScanner() {
         return new Scanner("HUB-TEST-001","10.0.0.1","");
+    }
+
+    private Scanner getScanner(String scanner) {
+        return new Scanner(scanner,"10.0.0.1","");
     }
 
     public Map<String, Boarding> getBoardings() {

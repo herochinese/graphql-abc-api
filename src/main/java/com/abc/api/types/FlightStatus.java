@@ -4,7 +4,6 @@ public enum FlightStatus {
     FO,
     FC,
     FF,
-    FD,
-    PD,
-
+    FZ,
+    PD
 }

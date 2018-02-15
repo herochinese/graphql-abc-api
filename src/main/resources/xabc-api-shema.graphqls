@@ -1,4 +1,13 @@
-#Schema for GraphQL API: simple + effcient
+#GraphQL Schema for ABC API v0.1.0: simple + effcient
+
+#
+#TODO:
+#   1. Switch input parameters to object with validattion
+#   2. Added more comment to understand definition
+#   3. Do we need airline operating code as input (such as: NZ, 3U, CA ...)? Default is NZ and only use flight number for now ("445", "101"...).
+#   4. Doesn't require depature date for all relevant methods for now due to simple style, and default today. May not right?
+#   5. Or for No.3/4, we can use id of flight which return from {flight.open}, and rest of call we can simply use this id instead of flight number
+#
 
 schema {
     query: Query
@@ -8,17 +17,18 @@ schema {
 type Query {
     #Search flights by flight number or "*"
     flights(flightNumber: String):   [Flight]
-
     #Search boardings by flight number or "*"
     boardings(flightNumber:  String):   [Boarding]
-
     #Get seat map by flight number
     seatMap(flightNumber: String!): SeatMap
 }
 
 type Mutation {
+    #all boarding operations
     board: BoardOperation
+    #all deboarding operations
     deboard: DeboardOperation
+    #all flight operations
     flight: FlightOperation
 }
 
@@ -26,23 +36,35 @@ type Mutation {
 
 #Boarding set
 type BoardOperation {
+    #Board pax with name and flight number.
     boardByName(firstName: String, lastName: String!, flightNumber: String!): Boarding
+    #Board pax with PNR and flight number (retrive detail before actual boarding)
     boardByPNR(pnr: String!, flightNumber: String!): Boarding
-    boardByBarcode(barcode:String!): Boarding
+    #Board with barcode string from scanner directly, such as mPass, bPass,etc.
+    boardByBarcode(barcode:String!, scannerName: String): Boarding
+    #Board with seat number within certain flight
     boardBySeatNumber(seatNumber: String!, flightNumber: String!): Boarding
 }
 
 #Deboard set
 type DeboardOperation {
+    #Deboard by pax name and flight number
     deboardByName(firstName: String, lastName: String!, flightNumber: String!): Boarding
+    #Deboard by seat number and flight number
     deboardBySeatNumber(seatNumber: String!, flightNumber: String!): Boarding
 
 }
 
 #Operating flight
 type FlightOperation {
+    #Open flight to triger caching relative data (Flight / Seat Map / Pax) and updating.
     open(agentSineCode:  String!, flightNumber: String!, departureAirport: String!): Flight
+    #Close flight to triger clean up cache.
     close(agentSineCode:  String!, flightNumber: String!, departureAirport: String!): Flight
+    #Get manifest with flight number
+    manifest(agentSineCode:  String!, flightNumber:String!, departureAirport: String!): String
+    #Get load sheet with flight number
+    loadSheet(agentSineCode:  String!, flightNumber:String!, departureAirport: String!): String
 }
 
 
@@ -52,9 +74,10 @@ enum FlightStatus {
     FO
     #Flight close
     FC
-    #Flight finished
+    #Flight finished, and then can print load sheet / manifest
     FF
-    FD
+    #Close flight immediately
+    FZ
     PD
 }
 
@@ -75,12 +98,12 @@ type Flight {
     paxBoarded: Int!
     paxLeftToBoard: Int!
     paxCheckedIn:   Int!
-    seatMap:    SeatMap
+    seatMap:    SeatMap!
 }
 
 type SeatMap {
 
-    flightNumber:   String
+    flightNumber:   String!
     aircraftDescription:    String
     airlineOperatingCode:   String
     equipment:  String
@@ -111,9 +134,9 @@ enum BoardingStatus {
     INACTIVE
     TO_BE_PROCESSED
     BOARDED
-    WARNING
-    REJECTED
     DEBOARD
+    REJECTED
+    WARNING
 }
 
 enum BoardingSubStatus {
