@@ -108,6 +108,9 @@ Or
 |No.|Issue|Solution|
 |---|:---:|:---:|
 
+# Next
+1. Push this thing into containter, and deploy to Kubenetes in AWS.
+2. Setup OpenFaas on Kubernetes, and then write serverless code to invoke API.
 
 # Appendix
 
