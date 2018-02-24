@@ -8,7 +8,9 @@ import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -19,8 +21,9 @@ public class Query implements GraphQLQueryResolver {
     private DataRepository dataRepository;
 
 
-    public List<Flight>flights(String flightNumber) {
-        return dataRepository.getFlights().values().stream().filter(flight -> "*".equals(flightNumber)?true:flight.getFlightNumber().equals(flightNumber)).collect(Collectors.toList());
+    public List<Flight> flights(Optional<String> flightNumber) {
+
+        return dataRepository.getFlights().values().stream().filter(flight -> "*".equals(flightNumber.get())?true:flight.getFlightNumber().equals(flightNumber)).collect(Collectors.toList());
     }
 
 

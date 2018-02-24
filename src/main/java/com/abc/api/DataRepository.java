@@ -16,16 +16,16 @@ import java.util.stream.Stream;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class DataRepository {
 
-    private Map<String, Flight> flights;
+    private Optional<Map<String, Flight>> flights;
     private Map<String, Boarding> boardings;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 
     public DataRepository() {
-        this.flights = Stream.of(getFlight("10000","0450"),
+        this.flights = Optional.of( Stream.of(getFlight("10000","0450"),
                 getFlight("10001","0451"),
                 getFlight("10002","0452"),
-                getFlight("10003","0453")).collect(Collectors.toMap(Flight::getId, Function.identity()));
+                getFlight("10003","0453")).collect(Collectors.toMap(Flight::getId, Function.identity())));
 
         this.boardings = new HashMap<>();
     }
@@ -58,11 +58,11 @@ public class DataRepository {
 
 
     public Map<String, Flight> getFlights() {
-        return flights;
+        return flights.get();
     }
 
     public void setFlights(Map<String, Flight> flights) {
-        this.flights = flights;
+        this.flights = Optional.of(flights);
     }
 
     public Flight openFlight(String agentSineCode, String flightNumber, String departureAirport) {
@@ -70,12 +70,12 @@ public class DataRepository {
                 flightNumber,"","G2",departureAirport,"WLG",
                 "", FlightStatus.FO,100,0,100,80,getSeatMap());
 
-        this.flights.put(flight.getId(), flight);
+        this.flights.orElseGet(this::getFlights).put(flight.getId(), flight);
         return flight;
     }
 
     public Flight closeFlight(String agentSineCode, String flightNumber, String departureAirport) {
-        return this.flights.values().stream().filter(flight-> flight.getAgentSineCode().equals(agentSineCode) && flight.getFlightNumber().equals(flightNumber) && flight.getDepartureAirport().equals(flightNumber))
+        return this.flights.get().values().stream().filter(flight-> flight.getAgentSineCode().equals(agentSineCode) && flight.getFlightNumber().equals(flightNumber) && flight.getDepartureAirport().equals(flightNumber))
                 .findFirst().orElse(null);
     }
 
