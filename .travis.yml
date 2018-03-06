@@ -8,8 +8,9 @@ before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   provider: releases
-  #api_key: "GITHUB OAUTH TOKEN"
+  api_key: 00a23efabe6dc949a3ecd114c0fabb392581460f
   file:
     - "docker/com-abc-api-0.1.0.jar"
   overwrite: true
   skip_cleanup: true
+
