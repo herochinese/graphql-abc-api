@@ -68,3 +68,11 @@ docker {
 	buildArgs(['JAR_FILE': "${jar.archiveName}"])
 }
 
+test.dependsOn {[copyJar]}
+
+task copyJar(type: Copy) {
+	println("Copy files ...")
+	from "build/libs/"
+	into "docker/"
+	include "**/*.jar"
+}
