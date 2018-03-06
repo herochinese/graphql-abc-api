@@ -8,8 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class FlightOperation {
 
-    @Autowired
     private DataRepository dataRepository;
+
+    @Autowired
+    public FlightOperation(DataRepository dataRepository) {
+        this.dataRepository = dataRepository;
+    }
 
     public Flight open(String agentSineCode, String flightNumber, String departureAirport) {
         return dataRepository.openFlight(agentSineCode,flightNumber,departureAirport);

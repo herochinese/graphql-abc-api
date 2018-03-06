@@ -17,7 +17,13 @@ import java.util.stream.Collectors;
 @Component
 public class Query implements GraphQLQueryResolver {
 
-    private DataRepository dataRepository = new DataRepository();
+
+    private DataRepository dataRepository;
+
+    @Autowired
+    public Query(DataRepository dataRepository) {
+        this.dataRepository = dataRepository;
+    }
 
 
     public List<Flight> flights(Optional<String> flightNumber) {

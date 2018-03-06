@@ -8,8 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class BoardOperation {
 
-    @Autowired
     private DataRepository dataRepository;
+
+    @Autowired
+    public BoardOperation(DataRepository dataRepository) {
+        this.dataRepository = dataRepository;
+    }
 
     public Boarding boardByName(String firstName, String lastName, String flightNumber){
         Boarding boarding = dataRepository.getBoarding(firstName,lastName,flightNumber);
