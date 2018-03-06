@@ -1,3 +1,4 @@
+
 # GraphQL API Trial Project
 
 - Design and implement schema .
@@ -6,6 +7,7 @@
 - Looking for the best practice for GraphQL project.
 
 # Build
+<img src="https://travis-ci.org/herochinese/graphql-abc-api.svg?branch=master"/>
 
 ```
 ./gradlew build
