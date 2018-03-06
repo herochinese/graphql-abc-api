@@ -63,8 +63,8 @@ docker {
 	name "${project.group}/${jar.baseName}"
 	tags 'latest'
 	dockerfile file('docker/Dockerfile')
-	files jar.archivePath
-
+	//files jar.archivePath
+	files 'docker'
 	buildArgs(['JAR_FILE': "${jar.archiveName}"])
 }
 
