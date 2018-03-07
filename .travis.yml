@@ -3,15 +3,16 @@ language: java
 script: 
   - ./gradlew clean build
 after_success:
+  - git config --local user.name herochinese
+  - git config --local user.email herochinese.cc@gmail.com
   - git add docker/com-abc-api-0.1.0.jar
-  - git commit -m "Travis build -> ${TRAVIS_BUILD_NUMBER}"
+  - git commit -m "Travis build -> $TRAVIS_BUILD_NUMBER"
   - git remote rm origin
   - git remote add origin https://$TK@github.com/herochinese/graphql-abc-api.git > /dev/null 2>&1
   - git push -u origin master
+
 before_deploy:
   # Set up git user name and tag this commit
-  - git config --local user.name herochinese
-  - git config --local user.email herochinese.cc@gmail.com
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   provider: releases
