@@ -1,4 +1,5 @@
 language: java
+
 script: 
 - ./gradlew clean build
 before_deploy:
@@ -8,7 +9,7 @@ before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   provider: releases
-  api_key: 11002edfc7ebf73de4ea4223c3404b9ae3bd4c04
+  api_key: TK
   file:
     - "docker/com-abc-api-0.1.0.jar"
   overwrite: true
