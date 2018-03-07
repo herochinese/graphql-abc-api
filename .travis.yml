@@ -20,6 +20,3 @@ deploy:
     - "docker/com-abc-api-0.1.0.jar"
   overwrite: true
   skip_cleanup: true
-
-git@github.com:herochinese/graphql-abc-api.git
-https://github.com/herochinese/graphql-abc-api.git
