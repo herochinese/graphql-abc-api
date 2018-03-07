@@ -4,7 +4,7 @@ script:
   - ./gradlew clean build
 after_success:
   - git add docker/com-abc-api-0.1.0.jar
-  - git commit -m "Travis build: $TRAVIS_BUILD_NUMBER"
+  - git commit -m "Travis build -> ${TRAVIS_BUILD_NUMBER}"
   - git remote rm origin
   - git remote add origin https://$TK@github.com/herochinese/graphql-abc-api.git > /dev/null 2>&1
   - git push -u origin master
