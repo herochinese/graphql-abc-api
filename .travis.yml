@@ -8,7 +8,7 @@ before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   provider: releases
-  api_key: dbc18eabcdc0c4f6901a8f5758af7c49da68131d
+  api_key: d44d3f11194a9b3f56679a215855221267e26f07
   file:
     - "docker/com-abc-api-0.1.0.jar"
   overwrite: true
